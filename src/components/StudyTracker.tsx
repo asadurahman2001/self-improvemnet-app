@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useOfflineStorage } from '../hooks/useOfflineStorage';
 import { supabase } from '../lib/supabase';
 import { BookOpen, Play, Pause, Plus, Clock, TrendingUp, X } from 'lucide-react';
 
 export const StudyTracker: React.FC = () => {
   const { user } = useAuth();
+  const { isOnline, saveOfflineData, getOfflineData, addToPendingSync } = useOfflineStorage();
   const [isStudying, setIsStudying] = useState(false);
   const [currentSession, setCurrentSession] = useState(0);
   const [currentSubject, setCurrentSubject] = useState('');
@@ -128,21 +130,45 @@ export const StudyTracker: React.FC = () => {
     const today = new Date().toISOString().split('T')[0];
     const durationHours = currentSession / 3600; // Convert seconds to hours
 
-    const { error } = await supabase
-      .from('study_sessions')
-      .insert({
-        user_id: user.id,
-        subject: currentSubject,
-        duration: durationHours,
-        date: today,
-        notes: `${Math.floor(currentSession / 3600)}h ${Math.floor((currentSession % 3600) / 60)}m session`
-      });
+    const sessionData = {
+      user_id: user.id,
+      subject: currentSubject,
+      duration: durationHours,
+      date: today,
+      notes: `${Math.floor(currentSession / 3600)}h ${Math.floor((currentSession % 3600) / 60)}m session`
+    };
 
-    if (!error) {
+    if (isOnline) {
+      const { error } = await supabase
+        .from('study_sessions')
+        .insert(sessionData);
+      
+      if (!error) {
+        setCurrentSession(0);
+        setIsStudying(false);
+        setCurrentSubject('');
+        setSessionStartTime(null);
+        loadStudyData(); // Refresh data
+      }
+    } else {
+      // Save offline and add to pending sync
+      addToPendingSync({
+        table: 'study_sessions',
+        operation: 'insert',
+        data: sessionData
+      });
+      
+      // Update local state
       setCurrentSession(0);
       setIsStudying(false);
       setCurrentSubject('');
       setSessionStartTime(null);
+      
+      // Update offline data
+      const offlineStudySessions = getOfflineData('study_sessions') || [];
+      offlineStudySessions.push({ ...sessionData, id: Date.now().toString() });
+      saveOfflineData('study_sessions', offlineStudySessions);
+      
       loadStudyData(); // Refresh data
     }
   };

@@ -13,6 +13,9 @@ A comprehensive self-improvement tracking application designed for Muslim studen
 - **Exam Countdown**: Track upcoming exams and study preparation
 - **Achievements**: Unlock achievements based on your progress
 - **Dark/Light Theme**: Toggle between themes for comfortable viewing
+- **Offline Support**: Works offline with automatic sync when online
+- **Mobile Responsive**: Optimized for mobile devices and tablets
+- **PWA Ready**: Can be installed as a Progressive Web App
 
 ## Tech Stack
 
@@ -142,6 +145,34 @@ The application uses the following main tables:
 ```bash
 npm run build
 ```
+
+## Deploying to Netlify
+
+1. **Build the project**:
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to Netlify**:
+   - Connect your GitHub repository to Netlify
+   - Set build command: `npm run build`
+   - Set publish directory: `dist`
+   - Add environment variables in Netlify dashboard:
+     - `VITE_SUPABASE_URL`
+     - `VITE_SUPABASE_ANON_KEY`
+
+3. **PWA Features**:
+   - The app includes a service worker for offline functionality
+   - Users can install it as a PWA on mobile devices
+   - Automatic caching for better performance
+
+## Mobile Features
+
+- **Responsive Design**: Optimized for all screen sizes
+- **Touch-Friendly**: Large touch targets and smooth interactions
+- **Bottom Navigation**: Easy thumb navigation on mobile
+- **Offline Mode**: Continue using the app without internet
+- **PWA Installation**: Add to home screen for app-like experience
 
 ## Electron Desktop App
 

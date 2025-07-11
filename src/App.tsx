@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { OfflineIndicator } from './components/OfflineIndicator';
+import { MobileNavigation } from './components/MobileNavigation';
 import { Auth } from './components/Auth';
 import { Dashboard } from './components/Dashboard';
 import { Sidebar } from './components/Sidebar';
@@ -17,6 +19,7 @@ import { Profile } from './components/Profile';
 const AppContent: React.FC = () => {
   const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   if (loading) {
     return (
@@ -59,11 +62,25 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 dark:from-gray-900 dark:to-emerald-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 dark:from-gray-900 dark:to-emerald-900 relative">
+      <OfflineIndicator />
+      
+      {/* Mobile Navigation */}
+      <MobileNavigation 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab}
+        isOpen={isMobileMenuOpen}
+        setIsOpen={setIsMobileMenuOpen}
+      />
+      
       <div className="flex">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main className="flex-1 ml-64">
-          <div className="p-6">
+        {/* Desktop Sidebar */}
+        <div className="hidden lg:block">
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        </div>
+        
+        <main className="flex-1 lg:ml-64">
+          <div className="p-4 lg:p-6 pt-20 lg:pt-6 pb-20 lg:pb-6">
             {renderContent()}
           </div>
         </main>

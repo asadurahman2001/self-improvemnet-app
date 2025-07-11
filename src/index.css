@@ -32,6 +32,23 @@
   .input-field {
     @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition-all duration-200;
   }
+  
+  /* Mobile-first responsive utilities */
+  .mobile-container {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  .mobile-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+  }
+  
+  .mobile-text {
+    @apply text-sm sm:text-base;
+  }
+  
+  .mobile-button {
+    @apply px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base;
+  }
 }
 
 /* Custom scrollbar for sidebar */
@@ -65,4 +82,34 @@
 
 .gradient-text {
   @apply bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .mobile-tap {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Improve touch targets */
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus */
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* PWA optimizations */
+@media (display-mode: standalone) {
+  body {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
 }

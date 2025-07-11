@@ -140,7 +140,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
             Let's make today productive and meaningful
           </p>
         </div>
-        <div className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="hidden sm:block text-sm text-gray-500 dark:text-gray-400">
           {new Date().toLocaleDateString('en-US', { 
             weekday: 'long', 
             year: 'numeric', 
@@ -151,7 +151,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         <div className="bg-gradient-to-r from-emerald-500 to-emerald-600 p-6 rounded-xl text-white shadow-lg">
           <div className="flex items-center justify-between">
             <div>
@@ -216,7 +216,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Today's Classes</h3>
-            <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
               <Clock className="w-4 h-4" />
               <span>{today}</span>
             </div>
@@ -247,7 +247,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
       )}
 
       {/* Today's Progress */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
         <div className="lg:col-span-2">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Today's Progress</h3>
