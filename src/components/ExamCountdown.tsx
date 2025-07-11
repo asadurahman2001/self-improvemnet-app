@@ -352,7 +352,7 @@ export const ExamCountdown: React.FC = () => {
                 <div className="mb-2">
                   <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-1">
                     <span>Study Progress</span>
-                    <span>{exam.studyHours}h / {exam.targetHours}h</span>
+                    <span>{exam.studyHours.toFixed(1)}h / {exam.targetHours}h</span>
                   </div>
                   <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                     <div 
@@ -367,7 +367,7 @@ export const ExamCountdown: React.FC = () => {
 
                 <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                   <span>{Math.round(progressPercentage)}% complete</span>
-                  <span>{exam.targetHours - exam.studyHours}h remaining</span>
+                  <span>{Math.max(0, exam.targetHours - exam.studyHours).toFixed(1)}h remaining</span>
                 </div>
 
                 <div className="flex justify-end space-x-2 mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
@@ -427,7 +427,7 @@ export const ExamCountdown: React.FC = () => {
                 </div>
                 <div className="text-right">
                   <div className="font-medium text-gray-800 dark:text-white">
-                    {hoursPerDay > 0 ? `${hoursPerDay}h/day` : 'Complete!'}
+                    {hoursPerDay > 0 ? `${hoursPerDay.toFixed(1)}h/day` : 'Complete!'}
                   </div>
                   <div className="text-sm text-gray-500 dark:text-gray-400">
                     {daysLeft} days left
@@ -467,7 +467,7 @@ export const ExamCountdown: React.FC = () => {
             </div>
             <div className="text-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
               <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                {exams.reduce((sum, exam) => sum + exam.studyHours, 0)}
+                {exams.reduce((sum, exam) => sum + exam.studyHours, 0).toFixed(1)}
               </div>
               <div className="text-sm text-gray-500 dark:text-gray-400">Hours Studied</div>
             </div>
