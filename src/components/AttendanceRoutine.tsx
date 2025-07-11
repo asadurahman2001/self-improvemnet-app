@@ -64,7 +64,7 @@ export const AttendanceRoutine: React.FC = () => {
           .eq('user_id', user?.id)
           .order('date', { ascending: false }),
         supabase
-          .from('class_schedule')
+          .from('class_schedules')
           .select('*')
           .eq('user_id', user?.id)
           .order('day', { ascending: true })
@@ -84,7 +84,7 @@ export const AttendanceRoutine: React.FC = () => {
 
     try {
       const { data, error } = await supabase
-        .from('class_schedule')
+        .from('class_schedules')
         .insert([{ ...newClass, user_id: user.id }])
         .select()
         .single();
@@ -161,7 +161,7 @@ export const AttendanceRoutine: React.FC = () => {
   const deleteClass = async (classId: string) => {
     try {
       const { error } = await supabase
-        .from('class_schedule')
+        .from('class_schedules')
         .delete()
         .eq('id', classId);
 

@@ -85,7 +85,7 @@ export const Profile: React.FC = () => {
       .from('profiles')
       .select('*')
       .eq('user_id', user.id)
-      .single();
+      .maybeSingle();
 
     if (data) {
       setProfileData({

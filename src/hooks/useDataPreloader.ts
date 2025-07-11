@@ -63,10 +63,10 @@ export const useDataPreloader = () => {
         supabase.from('quran_sessions').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
         supabase.from('habit_records').select('*').eq('user_id', user.id).order('created_at', { ascending: false }),
         supabase.from('attendance_records').select('*').eq('user_id', user.id).order('date', { ascending: false }),
-        supabase.from('class_schedules').select('*').eq('user_id', user.id).order('time'),
+        supabase.from('class_schedule').select('*').eq('user_id', user.id).order('time'),
         supabase.from('sleep_records').select('*').eq('user_id', user.id).order('date', { ascending: false }),
         supabase.from('exams').select('*').eq('user_id', user.id).order('date'),
-        supabase.from('profiles').select('*').eq('user_id', user.id).single()
+        supabase.from('profiles').select('*').eq('user_id', user.id).maybeSingle()
       ]);
 
       // Store in localStorage for offline access
