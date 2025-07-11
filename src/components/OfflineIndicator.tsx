@@ -1,6 +1,6 @@
 import React from 'react';
 import { useOfflineStorage } from '../hooks/useOfflineStorage';
-import { Wifi, WifiOff, Cloud, CloudOff, Sync } from 'lucide-react';
+import { Wifi, WifiOff, Cloud, CloudOff, FolderSync as Sync } from 'lucide-react';
 
 export const OfflineIndicator: React.FC = () => {
   const { isOnline, pendingSync } = useOfflineStorage();
