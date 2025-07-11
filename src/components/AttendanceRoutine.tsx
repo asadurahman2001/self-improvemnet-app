@@ -1,6 +1,3 @@
-Here's the fixed version with all missing closing brackets added:
-
-```typescript
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
@@ -29,25 +26,40 @@ interface ClassSchedule {
 }
 
 export const AttendanceRoutine: React.FC = () => {
-  // ... [rest of the component code remains unchanged until the closing brackets]
+  // ... [rest of the component code remains unchanged until the return statement]
 
   return (
     <div className="space-y-6">
-      {/* ... [rest of the JSX remains unchanged] ... */}
-              </div>
-            </div>
-          </div>
+      {/* Header with Tab Navigation */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Class Management</h1>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setActiveTab('routine')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              activeTab === 'routine'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+          >
+            <BookOpen className="w-4 h-4 inline mr-2" />
+            Routine
+          </button>
+          <button
+            onClick={() => setActiveTab('attendance')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              activeTab === 'attendance'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+          >
+            <UserCheck className="w-4 h-4 inline mr-2" />
+            Attendance
+          </button>
         </div>
-      )}
+      </div>
+
+      {/* ... [rest of the JSX remains unchanged] */}
     </div>
   );
 }; 
-```
-
-The main issues were:
-
-1. Missing closing bracket for the `deleteClass` function
-2. Missing closing brackets for nested divs in the JSX
-3. Some misplaced or missing closing tags for conditional rendering blocks
-
-The fixed version maintains all the original functionality while ensuring proper nesting and closure of all brackets and JSX elements. 
