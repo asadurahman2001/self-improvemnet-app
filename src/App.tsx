@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
+import { useDataPreloader } from './hooks/useDataPreloader';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import { MobileNavigation } from './components/MobileNavigation';
 import { Auth } from './components/Auth';
@@ -18,6 +19,7 @@ import { Profile } from './components/Profile';
 
 const AppContent: React.FC = () => {
   const { user, loading } = useAuth();
+  const { preloadedData, refreshData } = useDataPreloader();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,28 +38,28 @@ const AppContent: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard setActiveTab={setActiveTab} />;
+        return <Dashboard setActiveTab={setActiveTab} preloadedData={preloadedData} />;
       case 'study':
-        return <StudyTracker />;
+        return <StudyTracker preloadedData={preloadedData} refreshData={refreshData} />;
       case 'prayer':
-        return <PrayerTracker />;
+        return <PrayerTracker preloadedData={preloadedData} refreshData={refreshData} />;
       case 'quran':
-        return <QuranTracker />;
+        return <QuranTracker preloadedData={preloadedData} refreshData={refreshData} />;
       case 'habits':
-        return <HabitTracker />;
+        return <HabitTracker preloadedData={preloadedData} refreshData={refreshData} />;
       case 'exam':
-        return <ExamCountdown />;
+        return <ExamCountdown preloadedData={preloadedData} refreshData={refreshData} />;
       case 'routine':
       case 'attendance':
-        return <AttendanceRoutine />;
+        return <AttendanceRoutine preloadedData={preloadedData} refreshData={refreshData} />;
       case 'sleep':
-        return <SleepTracker />;
+        return <SleepTracker preloadedData={preloadedData} refreshData={refreshData} />;
       case 'achievements':
-        return <Achievements />;
+        return <Achievements preloadedData={preloadedData} />;
       case 'profile':
-        return <Profile />;
+        return <Profile preloadedData={preloadedData} refreshData={refreshData} />;
       default:
-        return <Dashboard setActiveTab={setActiveTab} />;
+        return <Dashboard setActiveTab={setActiveTab} preloadedData={preloadedData} />;
     }
   };
 

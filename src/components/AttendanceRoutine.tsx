@@ -179,6 +179,8 @@ export const AttendanceRoutine: React.FC = () => {
     if (!error) {
       await loadSchedule();
     }
+  };
+
   const quickMarkAttendance = async (subject: string, status: 'present' | 'absent' | 'late' | 'cancelled') => {
     if (!user) return;
 
@@ -195,7 +197,7 @@ export const AttendanceRoutine: React.FC = () => {
       }, {
         onConflict: 'user_id,subject,date'
       });
-  };
+
     if (!error) {
       await loadAttendanceData();
     }
@@ -438,63 +440,24 @@ export const AttendanceRoutine: React.FC = () => {
                     <span>{nextClass.instructor}</span>
                   </div>
                 </div>
-        <div className="space-y-4">
+              </div>
             )}
-            <div key={cls.id} className="bg-white dark:bg-gray-700 rounded-xl p-4 shadow-sm border border-gray-200 dark:border-gray-600 hover:shadow-md transition-all">
+          </div>
 
           {/* Weekly Schedule */}
-                  className="w-3 h-12 rounded-full"
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Weekly Schedule</h3>
               <button
-                  <div className="font-semibold text-lg text-gray-800 dark:text-white">{cls.subject}</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 mb-1">{cls.instructor}</div>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{cls.time} - {cls.endTime}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <MapPin className="w-3 h-3" />
-                      <span>{cls.location}</span>
-                    </div>
+                onClick={() => setShowAddClassModal(true)}
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+              >
                 <Plus className="w-4 h-4" />
-                </div>
-              </div>
-              
-              {/* Quick Attendance Actions */}
-              <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-600">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Quick Mark:</span>
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => quickMarkAttendance(cls.subject, 'present')}
-                      className="px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 rounded-lg text-xs hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
-                    >
-                      Present
-                    </button>
-                    <button
-                      onClick={() => quickMarkAttendance(cls.subject, 'absent')}
-                      className="px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-lg text-xs hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-                    >
-                      Absent
-                    </button>
-                    <button
-                      onClick={() => quickMarkAttendance(cls.subject, 'late')}
-                      className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-xs hover:bg-yellow-200 dark:hover:bg-yellow-900/30 transition-colors"
-                    >
-                      Late
-                    </button>
-                    <button
-                      onClick={() => quickMarkAttendance(cls.subject, 'cancelled')}
-                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                    >
-                      Cancelled
-                    </button>
+                <span>Add Class</span>
+              </button>
             </div>
             
             <div className="flex flex-wrap gap-2 mb-6">
-              
               {days.map(day => (
                 <button
                   key={day}
@@ -618,7 +581,7 @@ export const AttendanceRoutine: React.FC = () => {
                       ></div>
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                      {subjectStats.present}/{subjectStats.total} classes
+                      {subjectStats.present}/{subjectStats.validTotal} classes
                     </div>
                   </div>
                 );
@@ -942,4 +905,4 @@ export const AttendanceRoutine: React.FC = () => {
       )}
     </div>
   );
-}; 
+};

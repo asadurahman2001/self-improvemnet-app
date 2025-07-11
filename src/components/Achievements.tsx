@@ -527,7 +527,6 @@ export const Achievements: React.FC = () => {
 
   useEffect(() => {
     calculateProgress();
-  }, [userStats]);
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
