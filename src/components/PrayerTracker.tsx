@@ -331,46 +331,8 @@ export const PrayerTracker: React.FC = () => {
   const checkForMissedPrayers = async () => {
     if (!user) return;
 
-    const today = new Date().toISOString().split('T')[0];
-    const now = new Date();
-    const currentTime = now.toTimeString().slice(0, 5);
-
-    // Use local prayer times instead of database function
-    for (const prayer of prayers) {
-      if (currentTime > prayer.time) {
-        // Check if this prayer was completed today
-        const { data: completedPrayer } = await supabase
-          .from('prayer_records')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('prayer_name', prayer.name)
-          .eq('date', today)
-          .single();
-
-        // If not completed, check if it's already in missed_prayers
-        if (!completedPrayer) {
-          const { data: existingMissed } = await supabase
-            .from('missed_prayers')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('prayer_name', prayer.name)
-            .eq('missed_date', today)
-            .single();
-
-          // If not already recorded as missed, add it
-          if (!existingMissed) {
-            await supabase
-              .from('missed_prayers')
-              .insert({
-                user_id: user.id,
-                prayer_name: prayer.name,
-                missed_date: today,
-                prayer_time: prayer.time
-              });
-          }
-        }
-      }
-    }
+    // Note: Automatic missed prayer detection removed
+    // Prayers are only added to kaza list when explicitly marked as "kaza" during logging
   };
 
   const logPrayer = async (prayerName: string, type: 'jamat' | 'individual' | 'kaza') => {
