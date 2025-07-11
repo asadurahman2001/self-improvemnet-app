@@ -114,7 +114,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
       const quranReadToday = quranData?.reduce((sum, reading) => sum + reading.pages, 0) || 0;
 
       setStats({
-        studyHoursToday,
+        studyHoursToday: Math.round(studyHoursToday * 10) / 10,
         prayersCompleted,
         totalPrayers: 5,
         habitStreak,
@@ -156,7 +156,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setActiveTab }) => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-emerald-100">Study Hours Today</p>
-              <p className="text-2xl font-bold">{stats.studyHoursToday}h</p>
+              <p className="text-2xl font-bold">{stats.studyHoursToday.toFixed(1)}h</p>
             </div>
             <BookOpen className="w-8 h-8 text-emerald-200" />
           </div>
