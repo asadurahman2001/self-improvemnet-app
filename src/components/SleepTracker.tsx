@@ -105,7 +105,7 @@ export const SleepTracker: React.FC = () => {
     }
 
     const totalDuration = sleepRecords.reduce((sum, record) => sum + record.duration, 0);
-    const avgDuration = totalDuration / sleepRecords.length;
+    const avgDuration = Math.round((totalDuration / sleepRecords.length) * 10) / 10;
     const avgQuality = sleepRecords.reduce((sum, record) => sum + record.quality, 0) / sleepRecords.length;
     const goalAchieved = sleepRecords.filter(r => r.duration >= sleepGoal).length;
     
@@ -118,7 +118,7 @@ export const SleepTracker: React.FC = () => {
     );
     
     return {
-      avgDuration: Math.round(avgDuration * 10) / 10,
+      avgDuration,
       avgQuality: Math.round(avgQuality * 10) / 10,
       goalAchieved,
       totalNights: sleepRecords.length,
@@ -221,7 +221,7 @@ export const SleepTracker: React.FC = () => {
               <div className="text-indigo-100 text-sm">Daily Goal</div>
             </div>
             <div>
-              <div className="text-2xl font-bold">{stats.avgDuration}h</div>
+              <div className="text-2xl font-bold">{stats.avgDuration.toFixed(1)}h</div>
               <div className="text-indigo-100 text-sm">7-Day Average</div>
             </div>
             <div>
@@ -369,7 +369,7 @@ export const SleepTracker: React.FC = () => {
                 </div>
               </div>
               <div className="text-right">
-                <div className="font-medium text-gray-800 dark:text-white">{record.duration}h</div>
+                <div className="font-medium text-gray-800 dark:text-white">{record.duration.toFixed(1)}h</div>
                 <div className="flex justify-end">
                   {[...Array(5)].map((_, i) => (
                     <div

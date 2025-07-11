@@ -154,12 +154,12 @@ export const Profile: React.FC = () => {
         .eq('user_id', user.id);
 
       // Calculate statistics
-      const totalStudyHours = studySessions?.reduce((sum, session) => sum + (session.duration || 0), 0) || 0;
+      const totalStudyHours = Math.round((studySessions?.reduce((sum, session) => sum + (session.duration || 0), 0) || 0) * 10) / 10;
       const totalPrayersCompleted = prayerRecords?.length || 0;
       const totalQuranPages = quranSessions?.reduce((sum, session) => sum + (session.pages_read || 0), 0) || 0;
-      const totalSleepHours = sleepRecords?.reduce((sum, record) => sum + (record.duration || 0), 0) || 0;
+      const totalSleepHours = Math.round((sleepRecords?.reduce((sum, record) => sum + (record.duration || 0), 0) || 0) * 10) / 10;
       const averageSleepQuality = sleepRecords?.length > 0 
-        ? sleepRecords.reduce((sum, record) => sum + (record.quality || 0), 0) / sleepRecords.length 
+        ? Math.round((sleepRecords.reduce((sum, record) => sum + (record.quality || 0), 0) / sleepRecords.length) * 10) / 10
         : 0;
       const totalHabitsCompleted = habitRecords?.length || 0;
       const totalExams = exams?.length || 0;
@@ -176,14 +176,14 @@ export const Profile: React.FC = () => {
       const achievementsUnlocked = Math.min(8, Math.floor(totalStudyHours / 10) + Math.floor(totalPrayersCompleted / 10));
 
       setUserStats({
-        totalStudyHours: Math.round(totalStudyHours * 10) / 10,
+        totalStudyHours,
         totalPrayersCompleted,
         totalQuranPages,
         streakDays,
         achievementsUnlocked,
         attendanceRate,
-        totalSleepHours: Math.round(totalSleepHours * 10) / 10,
-        averageSleepQuality: Math.round(averageSleepQuality * 10) / 10,
+        totalSleepHours,
+        averageSleepQuality,
         totalHabitsCompleted,
         totalExams,
         memberSince: profileData.joinDate,
@@ -459,10 +459,11 @@ export const Profile: React.FC = () => {
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Total hours</span>
               <span className="font-medium text-gray-800 dark:text-white">{userStats.totalStudyHours}h</span>
+              <span className="font-medium text-gray-800 dark:text-white">{userStats.totalStudyHours.toFixed(1)}h</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Daily goal</span>
-              <span className="font-medium text-gray-800 dark:text-white">{profileData.dailyStudyGoal}h</span>
+              <span className="font-medium text-gray-800 dark:text-white">{profileData.dailyStudyGoal.toFixed(1)}h</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Current streak</span>
@@ -500,11 +501,11 @@ export const Profile: React.FC = () => {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Sleep hours</span>
-              <span className="font-medium text-gray-800 dark:text-white">{userStats.totalSleepHours}h</span>
+              <span className="font-medium text-gray-800 dark:text-white">{userStats.totalSleepHours.toFixed(1)}h</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Sleep quality</span>
-              <span className="font-medium text-gray-800 dark:text-white">{userStats.averageSleepQuality}/5</span>
+              <span className="font-medium text-gray-800 dark:text-white">{userStats.averageSleepQuality.toFixed(1)}/5</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600 dark:text-gray-300">Habits completed</span>
