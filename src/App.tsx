@@ -1,0 +1,85 @@
+import React, { useState } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { Auth } from './components/Auth';
+import { Dashboard } from './components/Dashboard';
+import { Sidebar } from './components/Sidebar';
+import { StudyTracker } from './components/StudyTracker';
+import { PrayerTracker } from './components/PrayerTracker';
+import { QuranTracker } from './components/QuranTracker';
+import { HabitTracker } from './components/HabitTracker';
+import { ExamCountdown } from './components/ExamCountdown';
+import { AttendanceRoutine } from './components/AttendanceRoutine';
+import { SleepTracker } from './components/SleepTracker';
+import { Achievements } from './components/Achievements';
+import { Profile } from './components/Profile';
+
+const AppContent: React.FC = () => {
+  const { user, loading } = useAuth();
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-900 via-teal-900 to-cyan-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Auth />;
+  }
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <Dashboard setActiveTab={setActiveTab} />;
+      case 'study':
+        return <StudyTracker />;
+      case 'prayer':
+        return <PrayerTracker />;
+      case 'quran':
+        return <QuranTracker />;
+      case 'habits':
+        return <HabitTracker />;
+      case 'exam':
+        return <ExamCountdown />;
+      case 'routine':
+      case 'attendance':
+        return <AttendanceRoutine />;
+      case 'sleep':
+        return <SleepTracker />;
+      case 'achievements':
+        return <Achievements />;
+      case 'profile':
+        return <Profile />;
+      default:
+        return <Dashboard setActiveTab={setActiveTab} />;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 dark:from-gray-900 dark:to-emerald-900">
+      <div className="flex">
+        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <main className="flex-1 ml-64">
+          <div className="p-6">
+            {renderContent()}
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
