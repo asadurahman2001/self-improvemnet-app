@@ -61,7 +61,7 @@ export const StudyTracker: React.FC = () => {
 
     if (todayData) {
       const totalToday = todayData.reduce((sum, session) => sum + session.duration, 0);
-      setTodayStudied(totalToday);
+      setTodayStudied(Math.round(totalToday * 10) / 10);
     }
 
     // Load weekly data
@@ -77,9 +77,9 @@ export const StudyTracker: React.FC = () => {
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
       const weeklyStats = days.map(day => ({
         day,
-        hours: weeklyData
+        hours: Math.round(weeklyData
           .filter(session => new Date(session.date).getDay() === days.indexOf(day))
-          .reduce((sum, session) => sum + session.duration, 0)
+          .reduce((sum, session) => sum + session.duration, 0) * 10) / 10
       }));
       setWeeklyData(weeklyStats);
     }
@@ -101,7 +101,7 @@ export const StudyTracker: React.FC = () => {
       const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-red-500'];
       const subjectArray = Array.from(subjectMap.entries()).map(([name, hours], index) => ({
         name,
-        hours: Number(hours),
+        hours: Math.round(Number(hours) * 10) / 10,
         color: colors[index % colors.length]
       }));
       setSubjects(subjectArray);
@@ -305,7 +305,7 @@ export const StudyTracker: React.FC = () => {
         <div className="mb-4">
           <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
             <span>Progress towards daily goal</span>
-            <span>{todayStudied.toFixed(1)}/{dailyGoal} hours</span>
+            <span>{todayStudied.toFixed(1)}/{dailyGoal.toFixed(1)} hours</span>
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
             <div 
